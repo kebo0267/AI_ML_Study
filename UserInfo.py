@@ -6,6 +6,7 @@ class UserInfo:
     def __init__(self):
         self.info = {}
         self.info["userId"] = ""
+        self.info["userName"] = ""
         self.info["password"] = ""
         self.info["lastLogin"] = None
         self.info["failedLogin"] = None
@@ -19,6 +20,14 @@ def userId(self):
 @userId.setter
 def userId(self,new_userId):
     self.info["userId"] = new_userId
+
+@property
+def userName(self):
+    return self.userName["userName"]
+    
+@userName.setter
+def userName(self,new_userName):
+    self.info["userName"] = new_userName
 
 @property
 def password(self):
@@ -51,7 +60,7 @@ def setFailedLoginTime(self,timeStr=None):
 
     self.info["failedCount"] += 1
 
-def saveAsJson(self):
+def getAsJson(self):
         temp_record = {}
         for key in self.info:
             if type(self.info[key]) == datetime:
@@ -61,11 +70,11 @@ def saveAsJson(self):
 
         return json.dumps(temp_record) 
     
-def loadJson(self,value):
+def loadFromJson(self,value):
     local_record = json.loads(value)
     for key in local_record:
         if key in self.info:
             if type(self.info[key]) == datetime:
                 self.info[key] = datetime.strptime(local_record[key],self.dateFormat)
-        else:
-            self.info[key] = local_record[key]
+            else:
+                self.info[key] = local_record[key]
