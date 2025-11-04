@@ -8,8 +8,8 @@ class UserInfo:
         self.info["userId"] = ""
         self.info["userName"] = ""
         self.info["password"] = ""
-        self.info["lastLogin"] = None
-        self.info["failedLogin"] = None
+        self.info["lastLogin"] = datetime(1970,1,1,0,0,0)
+        self.info["failedLogin"] = datetime(1970,1,1,0,0,0)
         self.info["failedCount"] = 0
         self.dateFormat = "%Y-%m-%d %H:%M:%S"
 
@@ -35,10 +35,10 @@ class UserInfo:
 
     @password.setter
     def password(self,new_password):
-        self.info["password"] = new_password.encode('utf-8')
+        self.info["password"] = str(new_password.encode('utf-8'))
 
     def checkPassword(self, password):
-        return password.encode('utf-8') == self.info["password"]
+        return str(password.encode('utf-8')) == self.info["password"]
 
     def setLoginTime(self,timeStr=None):
         if timeStr == None:
@@ -64,11 +64,12 @@ class UserInfo:
         temp_record = {}
         for key in self.info:
             print(key)
+            print(type(self.info[key]))
             if type(self.info[key]) == datetime:
                 temp_record[key] = self.info[key].strftime(self.dateFormat)
             else:
                 temp_record[key] = self.info[key]
-
+        print(temp_record)
         return json.dumps(temp_record) 
     
     def loadFromJson(self,value):
